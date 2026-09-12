@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dehcode"
+version = "0.1.0a1"
+description = "FREE-FIRST local runtime for open-source AI video"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = ["psutil>=5.9,<8"]
+
+[project.optional-dependencies]
+video = ["torch>=2.4,<3", "diffusers>=0.33,<0.38", "transformers>=4.45,<5", "accelerate>=1,<2", "huggingface-hub>=0.30,<1", "safetensors>=0.4,<1", "imageio[ffmpeg]>=2.34,<3", "sentencepiece>=0.2,<1", "ftfy>=6,<7"]
+
+[project.scripts]
+dehcode = "dehcode.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dehcode = ["registry/*.json"]
