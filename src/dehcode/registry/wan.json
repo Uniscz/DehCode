@@ -1,0 +1,21 @@
+{
+  "id": "wan-1.3b",
+  "name": "Wan 2.1 T2V 1.3B",
+  "repository": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "source": "https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "type": "text-to-video",
+  "license": "apache-2.0",
+  "adapter": "wan",
+  "backend": "diffusers",
+  "precisions": ["bf16"],
+  "supports_cpu_offload": true,
+  "quantization": "not implemented",
+  "min_vram_gib": null,
+  "recommended_vram_gib": null,
+  "min_ram_gib": null,
+  "download_gib": null,
+  "upstream_claim": "Upstream reports 8.19 GB VRAM for its implementation. This is not a measured requirement for this Diffusers adapter.",
+  "validated": false,
+  "defaults": {"width": 832, "height": 480, "frames": 81, "fps": 16, "steps": 50, "guidance": 5.0},
+  "profiles": ["gpu", "model-offload", "sequential-offload"]
+}
