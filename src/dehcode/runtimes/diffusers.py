@@ -53,9 +53,7 @@ def execute(adapter, snapshot, request, output, profile, gpu, progress):
             if Path(tmp).stat().st_size == 0:
                 raise RuntimeError('Encoder produced an empty file.')
             # Exclusive creation prevents accidental overwrite by concurrent jobs.
-            with output.open('xb') as dst, open(tmp, 'rb') as src:
-                import shutil
-                shutil.copyfileobj(src, dst)
+            os.link(tmp, output)
             metadata = dict(request=asdict(request), repository=snapshot['repository'],
                             revision=snapshot['revision'], profile=profile, gpu=gpu,
                             torch=torch.__version__)

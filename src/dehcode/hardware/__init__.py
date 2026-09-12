@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 import platform
+from pathlib import Path
 import re
 import shutil
 import subprocess
@@ -59,8 +60,19 @@ def detect(path='.'):
         except (TypeError, ValueError):
             torch = {'installed': True, 'cuda_available': False, 'error': 'PyTorch probe failed or timed out'}
     disk = shutil.disk_usage(path)
+    cpu = platform.processor() or platform.machine()
+    if platform.system() == 'Linux':
+        try:
+            for line in Path('/proc/cpuinfo').read_text().splitlines():
+                if line.startswith('model name'):
+                    cpu = line.split(':', 1)[1].strip()
+                    break
+        except OSError:
+            pass
+    elif platform.system() == 'Darwin':
+        cpu = command(['sysctl', '-n', 'machdep.cpu.brand_string']) or cpu
     return dict(os=platform.system(), os_version=platform.release(), python=platform.python_version(),
-                cpu=platform.processor() or platform.machine(), cpu_threads=os.cpu_count(), ram=ram,
+                cpu=cpu, cpu_threads=os.cpu_count(), ram=ram,
                 gpus=gpus, driver_cuda_max=cuda.group(1) if cuda else None,
                 cuda_toolkit=toolkit, torch=torch, disk_free_gib=round(disk.free/2**30, 2),
                 warnings=warnings)
